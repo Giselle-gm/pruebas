@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b556nqw2v2asv"]
+
+[ext_resource type="Script" uid="uid://cwq7lj4qfmq4a" path="res://backend_manager.gd" id="1_38lop"]
+
+[node name="BackendManager" type="Node" unique_id=851208669]
+script = ExtResource("1_38lop")
