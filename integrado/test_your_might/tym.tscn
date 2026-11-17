@@ -10,7 +10,7 @@
 [ext_resource type="Script" path="res://test_your_might/fx.gd" id="8_fx"]
 [ext_resource type="Script" path="res://test_your_might/hud.gd" id="9_hud"]
 [ext_resource type="Script" path="res://test_your_might/sfx.gd" id="10_sfx"]
-[ext_resource type="Texture2D" path="res://Game1/bg.png" id="11_bg"]
+[ext_resource type="Texture2D" path="res://game1/bg.png" id="11_bg"]
 
 [node name="Tym" type="Node2D"]
 script = ExtResource("1_tym")

@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://dod0uen4vtby"]
 
-[ext_resource type="Script" uid="uid://b2c8x2lgb11d1" path="res://Game1/game_1.gd" id="1_c701w"]
-[ext_resource type="Script" uid="uid://bpdg6v7eejisj" path="res://Game1/stage.gd" id="1_ov8li"]
-[ext_resource type="Texture2D" uid="uid://cld4ru0wav0ki" path="res://Game1/player1-v2.png" id="3_t3b1j"]
-[ext_resource type="AudioStream" uid="uid://c0du4rpohqwg1" path="res://Game1/gun.wav" id="4_c701w"]
-[ext_resource type="Texture2D" uid="uid://c3an04cfnldsj" path="res://Game1/bg.png" id="4_fks45"]
-[ext_resource type="Texture2D" uid="uid://cfhsc4unsoq4n" path="res://Game1/player2-v2.png" id="4_t3b1j"]
+[ext_resource type="Script" uid="uid://b2c8x2lgb11d1" path="res://game1/game_1.gd" id="1_c701w"]
+[ext_resource type="Script" uid="uid://bpdg6v7eejisj" path="res://game1/stage.gd" id="1_ov8li"]
+[ext_resource type="Texture2D" uid="uid://cld4ru0wav0ki" path="res://game1/player1-v2.png" id="3_t3b1j"]
+[ext_resource type="AudioStream" uid="uid://c0du4rpohqwg1" path="res://game1/gun.wav" id="4_c701w"]
+[ext_resource type="Texture2D" uid="uid://c3an04cfnldsj" path="res://game1/bg.png" id="4_fks45"]
+[ext_resource type="Texture2D" uid="uid://cfhsc4unsoq4n" path="res://game1/player2-v2.png" id="4_t3b1j"]
 [ext_resource type="FontFile" uid="uid://ykk8qopxxi0f" path="res://pixel-comic-sans-undertale-sans-font.ttf" id="5_t3b1j"]
-[ext_resource type="AudioStream" uid="uid://b7wq2n4yak1m3" path="res://Game1/mysterious wind.wav" id="6_wind"]
+[ext_resource type="AudioStream" uid="uid://b7wq2n4yak1m3" path="res://game1/mysterious wind.wav" id="6_wind"]
 
 [node name="Game1" type="Node2D" unique_id=1202138944]
 script = ExtResource("1_c701w")

@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://bsfb45tr3wlh"]
 
-[ext_resource type="Script" uid="uid://pte1rd0e6ivn" path="res://Game2/game_2.gd" id="1_tg8mu"]
-[ext_resource type="Texture2D" uid="uid://b76g5umlkw8ux" path="res://Game2/bg 2.jpeg" id="2_me4bl"]
-[ext_resource type="Texture2D" uid="uid://cvjvgjspvf8uh" path="res://Game2/Conductor.png" id="3_h2xay"]
-[ext_resource type="Texture2D" uid="uid://domjc01o41no7" path="res://Game2/frame.png" id="4_pylxb"]
-[ext_resource type="Texture2D" uid="uid://bf85x1x00pqjn" path="res://Game2/Carabinero.png" id="5_pylxb"]
-[ext_resource type="AudioStream" uid="uid://vfuyr6nkrfh8" path="res://Game2/audio-auto.mp3" id="6_6jivu"]
+[ext_resource type="Script" uid="uid://pte1rd0e6ivn" path="res://game2/game_2.gd" id="1_tg8mu"]
+[ext_resource type="Texture2D" uid="uid://b76g5umlkw8ux" path="res://game2/bg 2.jpeg" id="2_me4bl"]
+[ext_resource type="Texture2D" uid="uid://cvjvgjspvf8uh" path="res://game2/Conductor.png" id="3_h2xay"]
+[ext_resource type="Texture2D" uid="uid://domjc01o41no7" path="res://game2/frame.png" id="4_pylxb"]
+[ext_resource type="Texture2D" uid="uid://bf85x1x00pqjn" path="res://game2/Carabinero.png" id="5_pylxb"]
+[ext_resource type="AudioStream" uid="uid://vfuyr6nkrfh8" path="res://game2/audio-auto.mp3" id="6_6jivu"]
 [ext_resource type="FontFile" uid="uid://ykk8qopxxi0f" path="res://pixel-comic-sans-undertale-sans-font.ttf" id="6_kfdu4"]
-[ext_resource type="AudioStream" uid="uid://delgfj0kujv2a" path="res://Game2/audio-camara.mp3" id="7_302eo"]
+[ext_resource type="AudioStream" uid="uid://delgfj0kujv2a" path="res://game2/audio-camara.mp3" id="7_302eo"]
 
 [node name="Game2" type="Node2D" unique_id=584391609]
 script = ExtResource("1_tg8mu")
