@@ -48,6 +48,7 @@ var screen_width: float = 0.0
 var car_width: float = 100.0
 
 func _ready() -> void:
+	GameSession.iniciar_partida("take")
 	randomize()
 	
 	var viewport_rect: Rect2 = get_viewport_rect()
@@ -199,7 +200,10 @@ func wait_and_respawn() -> void:
 		spawn_car()
 
 func trigger_game_over() -> void:
+	if current_state == GameState.GAME_OVER:
+		return
 	current_state = GameState.GAME_OVER
+	GameSession.guardar_resultado_local("take", score, 1)
 
 	var tween: Tween = create_tween()
 	tween.tween_property(dim_overlay, "modulate:a", 0.7, 0.5)

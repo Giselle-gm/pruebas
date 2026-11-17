@@ -37,11 +37,15 @@ var signal_appeared_at_msec := 0
 var best_of := 3
 var wins_needed := 2
 var wins := [0, 0]
+var best_time1 := -1
+var best_time2 := -1
+var resultados_registrados := false
 
 var _msg_tween: Tween
 
 
 func _ready() -> void:
+	GameSession.iniciar_partida("draw")
 	best_of = 5 if GameConfig.draw_best_of == 5 else 3
 	wins_needed = int(ceil(best_of * 0.5))
 	_start_wind()
@@ -91,6 +95,9 @@ func start_round(setter: int) -> void:
 	# setter == 0 arranca la partida; setter == 1 pasa a la siguiente ronda.
 	if setter == 0:
 		wins = [0, 0]
+		best_time1 = -1
+		best_time2 = -1
+		resultados_registrados = false
 
 	$Player1.texture = load("res://game1/player1-v2.png")
 	$Player2.texture = load("res://game1/player2-v2.png")
@@ -160,12 +167,17 @@ func _finish_valid_shot(player: int) -> void:
 	else:
 		$Player2.texture = load("res://game1/player2-v3.png")
 
+	var reaction_time := Time.get_ticks_msec() - signal_appeared_at_msec
+	if player == 1:
+		if best_time1 < 0 or reaction_time < best_time1:
+			best_time1 = reaction_time
+	else:
+		if best_time2 < 0 or reaction_time < best_time2:
+			best_time2 = reaction_time
 	_add_win(player)
 	if _match_over(player):
 		game_over(player)
 		return
-
-	var reaction_time := Time.get_ticks_msec() - signal_appeared_at_msec
 	_set_message(
 		("Jugador %d gana - %d ms (%d-%d)\n"
 		+ "Espacio para la siguiente ronda") % [player, reaction_time, wins[0], wins[1]],
@@ -183,10 +195,17 @@ func _match_over(winner: int) -> bool:
 
 
 func game_over(winner: int) -> void:
+	if resultados_registrados:
+		return
+	resultados_registrados = true
 	round_state = RoundState.GAME_OVER
 	message_label.visible = false
 	if _msg_tween != null:
 		_msg_tween.kill()
+	if best_time1 >= 0:
+		GameSession.guardar_resultado_local("draw", best_time1, 1)
+	if best_time2 >= 0:
+		GameSession.guardar_resultado_local("draw", best_time2, 2)
 
 	EndScreenScript.spawn(self, "J%d GANA" % winner,
 		"AL MEJOR DE %d  (%d-%d)" % [best_of, wins[0], wins[1]],

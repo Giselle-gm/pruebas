@@ -61,9 +61,11 @@ var hits: Array[int] = [0, 0]          ## bloques cedidos
 var strikes: Array[int] = [0, 0]       ## toques
 var last_flash: Array[float] = [0.0, 0.0]
 var last_ok: Array[bool] = [false, false]
+var resultados_registrados := false
 
 
 func _ready() -> void:
+	GameSession.iniciar_partida("test_your_might")
 	for i in NUM_PLAYERS:
 		fighters[i].facing = 1 if i == 0 else -1
 		fighters[i].position = Vector2(FIGHTER_X[i], FLOOR_Y)
@@ -221,6 +223,10 @@ func _break_block(i: int) -> void:
 ## que Draw y Take puedan usar la misma sin copiar codigo.
 func _show_end(title: String, detail: String, accent: Color) -> void:
 	hud.visible = false
+	if not resultados_registrados:
+		resultados_registrados = true
+		GameSession.guardar_resultado_local("test_your_might", broken[0], 1)
+		GameSession.guardar_resultado_local("test_your_might", broken[1], 2)
 	EndScreenScript.spawn(self, title, detail, accent)
 
 
