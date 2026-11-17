@@ -31,6 +31,7 @@ var best_time1 = -1
 var best_time2 = -1
 
 func _ready() -> void:
+	GameSession.iniciar_partida("draw")
 	round_ind = [$"../Round1",$"../Round2",$"../Round3"]
 	wind.play()
 	start_round(0)
@@ -136,7 +137,7 @@ func _finish_valid_shot(player: int) -> void:
 	
 	if player == 1:
 		if best_time1 == -1 or reaction_time < best_time1:
-			best_time2 = reaction_time
+			best_time1 = reaction_time
 	else:
 		if best_time2 == -1 or reaction_time < best_time2:
 			best_time2 = reaction_time
@@ -173,5 +174,9 @@ func check_end():
 func game_over(winner):
 	round_state = RoundState.GAME_OVER
 	message_label.visible = false
+	if best_time1 >= 0:
+		GameSession.guardar_resultado_local("draw", best_time1, 1)
+	if best_time2 >= 0:
+		GameSession.guardar_resultado_local("draw", best_time2, 2)
 	EndScreenScript.spawn(self, "J%d GANA" % winner, "AL MEJOR DE 3",
 		Color("ff4d6d") if winner == 1 else Color("3ea6ff"))
