@@ -1,0 +1,105 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://test_your_might/tym.gd" id="1_tym"]
+[ext_resource type="Script" path="res://test_your_might/shake.gd" id="2_shake"]
+[ext_resource type="Script" path="res://test_your_might/arena.gd" id="3_arena"]
+[ext_resource type="Script" path="res://test_your_might/block.gd" id="4_block"]
+[ext_resource type="Script" path="res://test_your_might/gauge.gd" id="5_gauge"]
+[ext_resource type="Script" path="res://test_your_might/fighter.gd" id="6_fighter"]
+[ext_resource type="Script" path="res://test_your_might/shadow.gd" id="7_shadow"]
+[ext_resource type="Script" path="res://test_your_might/fx.gd" id="8_fx"]
+[ext_resource type="Script" path="res://test_your_might/hud.gd" id="9_hud"]
+[ext_resource type="Script" path="res://test_your_might/sfx.gd" id="10_sfx"]
+[ext_resource type="Texture2D" path="res://Game1/bg.png" id="11_bg"]
+
+[node name="Tym" type="Node2D"]
+script = ExtResource("1_tym")
+
+[node name="World" type="Node2D" parent="."]
+script = ExtResource("2_shake")
+
+[node name="Background" type="Sprite2D" parent="World"]
+z_index = -10
+position = Vector2(160, 90)
+texture = ExtResource("11_bg")
+
+[node name="Arena" type="Node2D" parent="World"]
+z_index = -8
+position = Vector2(160, 136)
+script = ExtResource("3_arena")
+
+[node name="Blocks" type="Node2D" parent="World"]
+z_index = -4
+
+[node name="Block1" type="Node2D" parent="World/Blocks"]
+position = Vector2(112, 136)
+script = ExtResource("4_block")
+player_index = 0
+
+[node name="Block2" type="Node2D" parent="World/Blocks"]
+position = Vector2(208, 136)
+script = ExtResource("4_block")
+player_index = 1
+
+[node name="Gauges" type="Node2D" parent="World"]
+z_index = 1
+
+[node name="Gauge1" type="Node2D" parent="World/Gauges"]
+position = Vector2(18, 134)
+script = ExtResource("5_gauge")
+player_index = 0
+accent = Color(1, 0.301961, 0.427451, 1)
+
+[node name="Gauge2" type="Node2D" parent="World/Gauges"]
+position = Vector2(302, 134)
+script = ExtResource("5_gauge")
+player_index = 1
+accent = Color(0.243137, 0.65098, 1, 1)
+
+[node name="Fighters" type="Node2D" parent="World"]
+z_index = 0
+
+[node name="P1" type="Node2D" parent="World/Fighters"]
+position = Vector2(64, 136)
+script = ExtResource("6_fighter")
+player_index = 0
+accent = Color(1, 0.301961, 0.427451, 1)
+
+[node name="Shadow" type="Node2D" parent="World/Fighters/P1"]
+z_index = -2
+script = ExtResource("7_shadow")
+
+[node name="Body" type="Sprite2D" parent="World/Fighters/P1"]
+z_index = -1
+
+[node name="P2" type="Node2D" parent="World/Fighters"]
+position = Vector2(256, 136)
+script = ExtResource("6_fighter")
+player_index = 1
+accent = Color(0.243137, 0.65098, 1, 1)
+
+[node name="Shadow" type="Node2D" parent="World/Fighters/P2"]
+z_index = -2
+script = ExtResource("7_shadow")
+
+[node name="Body" type="Sprite2D" parent="World/Fighters/P2"]
+z_index = -1
+flip_h = true
+
+[node name="FX" type="Node2D" parent="World"]
+z_index = 5
+script = ExtResource("8_fx")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Hud" type="Control" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("9_hud")
+
+[node name="Sfx" type="Node" parent="."]
+script = ExtResource("10_sfx")

@@ -1,0 +1,125 @@
+[gd_scene format=3 uid="uid://2vj1hrfhgw2"]
+
+[ext_resource type="Script" uid="uid://brtcs8o0nce6g" path="res://ranking/ranking2.gd" id="1_d3d8c"]
+[ext_resource type="Texture2D" uid="uid://b76g5umlkw8ux" path="res://game2/bg 2.jpeg" id="2_2in4a"]
+[ext_resource type="FontFile" uid="uid://cjsolftg07fq5" path="res://fonts/PIXELADE.ttf" id="3_5fio4"]
+[ext_resource type="FontFile" uid="uid://pxwfatsbn2q8" path="res://fonts/Pixellari.ttf" id="3_bjp84"]
+[ext_resource type="Texture2D" uid="uid://bt8eu02y4hjuv" path="res://assets/podio.png" id="4_87jus"]
+
+[node name="Control" type="Control" unique_id=484461867]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_d3d8c")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1626709453]
+modulate = Color(1, 1, 1, 0.4509804)
+light_mask = 4
+z_index = -10
+position = Vector2(161, 89)
+scale = Vector2(0.11363637, 0.11458333)
+texture = ExtResource("2_2in4a")
+
+[node name="LabelTitulo" type="Label" parent="." unique_id=1559349054]
+layout_mode = 0
+offset_left = 55.0
+offset_right = 266.0
+offset_bottom = 23.0
+text = "Ranking Global"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=559326126]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 106.0
+offset_right = 264.0
+offset_bottom = 170.0
+
+[node name="RichTextLabelRanking" type="RichTextLabel" parent="VBoxContainer" unique_id=1312460373]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("3_bjp84")
+theme_override_fonts/bold_font = ExtResource("3_bjp84")
+theme_override_font_sizes/normal_font_size = 8
+theme_override_font_sizes/bold_font_size = 8
+theme_override_font_sizes/bold_italics_font_size = 8
+theme_override_font_sizes/italics_font_size = 10
+theme_override_font_sizes/mono_font_size = 10
+bbcode_enabled = true
+tab_size = 3
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelMensaje" type="Label" parent="VBoxContainer" unique_id=2140124803]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_5fio4")
+theme_override_font_sizes/font_size = 6
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=568344589]
+layout_mode = 2
+offset_transform_enabled = true
+alignment = 1
+
+[node name="ButtonActualizar" type="Button" parent="VBoxContainer/VBoxContainer" unique_id=18162641]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_bjp84")
+theme_override_font_sizes/font_size = 8
+text = "Actualizar 
+ranking"
+
+[node name="ButtonVolver" type="Button" parent="VBoxContainer/VBoxContainer" unique_id=975849982]
+layout_mode = 2
+offset_transform_enabled = true
+theme_override_fonts/font = ExtResource("3_bjp84")
+theme_override_font_sizes/font_size = 8
+text = "Volver"
+
+[node name="Podio" type="Sprite2D" parent="." unique_id=802484797]
+position = Vector2(208, 57.000004)
+scale = Vector2(0.26275, 0.22825)
+texture = ExtResource("4_87jus")
+
+[node name="Top1_Label" type="RichTextLabel" parent="." unique_id=858116038]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 29.0
+offset_right = 212.0
+offset_bottom = 49.0
+theme_override_fonts/normal_font = ExtResource("3_bjp84")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+tab_size = 3
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Top2_Label" type="RichTextLabel" parent="." unique_id=577156553]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 48.0
+offset_right = 142.0
+offset_bottom = 68.0
+theme_override_fonts/normal_font = ExtResource("3_bjp84")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+tab_size = 3
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Top3_Label" type="RichTextLabel" parent="." unique_id=454582437]
+layout_mode = 0
+offset_left = 188.0
+offset_top = 47.0
+offset_right = 273.0
+offset_bottom = 67.0
+theme_override_fonts/normal_font = ExtResource("3_bjp84")
+theme_override_font_sizes/normal_font_size = 8
+theme_override_font_sizes/bold_font_size = 9
+theme_override_font_sizes/bold_italics_font_size = 9
+bbcode_enabled = true
+tab_size = 3
+horizontal_alignment = 1
+vertical_alignment = 2

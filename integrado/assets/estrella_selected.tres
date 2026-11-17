@@ -1,0 +1,11 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://bin2dfcxvo18m"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_oc037"]
+load_path = "res://.godot/imported/estrella_normal.png-b6794df9e214a44fbca4d31ab2a84439.ctex"
+
+[resource]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+texture = SubResource("CompressedTexture2D_oc037")
