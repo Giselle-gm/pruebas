@@ -12,6 +12,7 @@ const URL_BACKEND := "http://127.0.0.1:8000"
 func _ready() -> void:
 	comprobar_conexion()
 
+
 # --------------------------------------------------
 # CONEXION CON EL BACKEND
 # --------------------------------------------------
@@ -21,26 +22,35 @@ func comprobar_conexion() -> void:
 
 
 # --------------------------------------------------
-# GUARDAR PUNTAJE
+# GUARDAR RESULTADO DE UN JUGADOR
 # --------------------------------------------------
 
 func guardar_puntaje(
+	id_partida: String,
 	minijuego: String,
 	nombre_jugador: String,
-	puntaje_final: int
-	) -> void:
-	var nombre := nombre_jugador.strip_edges()
+	puntaje_final: int,
+	jugador_numero: int
+) -> void:
+	var uuid := id_partida.strip_edges()
 	var juego := minijuego.strip_edges().to_lower()
+	var nombre := nombre_jugador.strip_edges()
 
-	if nombre.is_empty():
+	if not _es_uuid_valido(uuid):
 		puntaje_guardado.emit(false, {
-			"detail": "Debes ingresar un nombre para guardar el puntaje."
+			"detail": "El identificador de partida no es válido."
 		})
 		return
 
-	if nombre.length() > 30:
+	if not _es_minijuego_valido(juego):
 		puntaje_guardado.emit(false, {
-			"detail": "El nombre no puede superar los 30 caracteres."
+			"detail": "El identificador del minijuego no es válido."
+		})
+		return
+
+	if nombre.is_empty() or nombre.length() > 30:
+		puntaje_guardado.emit(false, {
+			"detail": "El nombre debe tener entre 1 y 30 caracteres."
 		})
 		return
 
@@ -50,10 +60,18 @@ func guardar_puntaje(
 		})
 		return
 
+	if jugador_numero < 1 or jugador_numero > 2:
+		puntaje_guardado.emit(false, {
+			"detail": "El jugador debe ser 1 o 2."
+		})
+		return
+
 	var datos := {
+		"id_partida": uuid,
 		"minijuego": juego,
 		"nombre_jugador": nombre,
-		"puntaje_final": puntaje_final
+		"puntaje_final": puntaje_final,
+		"jugador_numero": jugador_numero
 	}
 
 	realizar_solicitud(
@@ -65,15 +83,15 @@ func guardar_puntaje(
 
 
 # --------------------------------------------------
-# CONSULTAR RANKING DE UN MINIJUEGO
+# CONSULTAR RANKING
 # --------------------------------------------------
 
 func obtener_ranking(minijuego: String) -> void:
 	var juego := minijuego.strip_edges().to_lower()
 
-	if juego.is_empty():
+	if not _es_minijuego_valido(juego):
 		ranking_recibido.emit(false, {
-			"detail": "Debes indicar el minijuego."
+			"detail": "El identificador del minijuego no es válido."
 		})
 		return
 
@@ -86,26 +104,33 @@ func obtener_ranking(minijuego: String) -> void:
 
 
 # --------------------------------------------------
-# ENVIAR VALORACION
+# ENVIAR VALORACION INDIVIDUAL
 # --------------------------------------------------
 
 func enviar_valoracion(
+	id_partida: String,
 	minijuego: String,
-	sesion_jugador_id: String,
+	jugador_numero: int,
 	puntuacion: int
-	) -> void:
+) -> void:
+	var uuid := id_partida.strip_edges()
 	var juego := minijuego.strip_edges().to_lower()
-	var id_sesion := sesion_jugador_id.strip_edges()
 
-	if juego.is_empty():
+	if not _es_uuid_valido(uuid):
 		valoracion_completada.emit(false, {
-			"detail": "Debes indicar el minijuego."
+			"detail": "El identificador de partida no es válido."
 		})
 		return
 
-	if not _es_uuid_valido(id_sesion):
+	if not _es_minijuego_valido(juego):
 		valoracion_completada.emit(false, {
-			"detail": "El identificador de sesión no es válido."
+			"detail": "El identificador del minijuego no es válido."
+		})
+		return
+
+	if jugador_numero < 1 or jugador_numero > 2:
+		valoracion_completada.emit(false, {
+			"detail": "El jugador debe ser 1 o 2."
 		})
 		return
 
@@ -116,8 +141,9 @@ func enviar_valoracion(
 		return
 
 	var datos := {
+		"id_partida": uuid,
 		"minijuego": juego,
-		"sesion_jugador_id": id_sesion,
+		"jugador_numero": jugador_numero,
 		"puntuacion": puntuacion
 	}
 
@@ -130,15 +156,15 @@ func enviar_valoracion(
 
 
 # --------------------------------------------------
-# CONSULTAR PROMEDIO DE VALORACIONES
+# CONSULTAR RESUMEN DE VALORACIONES
 # --------------------------------------------------
 
 func obtener_resumen_valoraciones(minijuego: String) -> void:
 	var juego := minijuego.strip_edges().to_lower()
 
-	if juego.is_empty():
+	if not _es_minijuego_valido(juego):
 		resumen_valoraciones_recibido.emit(false, {
-			"detail": "Debes indicar el minijuego."
+			"detail": "El identificador del minijuego no es válido."
 		})
 		return
 
@@ -151,7 +177,7 @@ func obtener_resumen_valoraciones(minijuego: String) -> void:
 
 
 # --------------------------------------------------
-# FUNCION GENERAL PARA PETICIONES HTTP
+# PETICIONES HTTP
 # --------------------------------------------------
 
 func realizar_solicitud(
@@ -159,8 +185,7 @@ func realizar_solicitud(
 	metodo: int,
 	datos: Dictionary,
 	tipo: String
-	) -> void:
-	
+) -> void:
 	var peticion := HTTPRequest.new()
 	add_child(peticion)
 
@@ -168,7 +193,7 @@ func realizar_solicitud(
 		func(
 			resultado: int,
 			codigo_http: int,
-			cabeceras: PackedStringArray,
+			_cabeceras: PackedStringArray,
 			cuerpo: PackedByteArray
 		) -> void:
 			var texto := cuerpo.get_string_from_utf8()
@@ -193,23 +218,15 @@ func realizar_solicitud(
 
 			match tipo:
 				"conexion":
-					var mensaje := texto
-					conexion_comprobada.emit(exito, mensaje)
-
+					conexion_comprobada.emit(exito, texto)
 				"puntaje":
 					puntaje_guardado.emit(exito, respuesta)
-
 				"ranking":
 					ranking_recibido.emit(exito, respuesta)
-
 				"valoracion":
 					valoracion_completada.emit(exito, respuesta)
-
 				"resumen":
-					resumen_valoraciones_recibido.emit(
-						exito,
-						respuesta
-					)
+					resumen_valoraciones_recibido.emit(exito, respuesta)
 
 			peticion.queue_free(),
 		CONNECT_ONE_SHOT
@@ -218,7 +235,6 @@ func realizar_solicitud(
 	var cabeceras := PackedStringArray([
 		"Content-Type: application/json"
 	])
-
 	var cuerpo_json := ""
 
 	if not datos.is_empty():
@@ -232,8 +248,6 @@ func realizar_solicitud(
 	)
 
 	if error != OK:
-		print("No se pudo iniciar la petición. Código: ", error)
-
 		var respuesta_error := {
 			"detail": "No se pudo iniciar la solicitud HTTP."
 		}
@@ -251,22 +265,22 @@ func realizar_solicitud(
 			"valoracion":
 				valoracion_completada.emit(false, respuesta_error)
 			"resumen":
-				resumen_valoraciones_recibido.emit(
-					false,
-					respuesta_error
-				)
+				resumen_valoraciones_recibido.emit(false, respuesta_error)
 
 		peticion.queue_free()
 
 
 # --------------------------------------------------
-# VALIDAR IDENTIFICADOR UUID DE SESION
+# VALIDACIONES
 # --------------------------------------------------
+
+func _es_minijuego_valido(valor: String) -> bool:
+	return valor in ["take", "draw", "test_your_might"]
+
 
 func _es_uuid_valido(valor: String) -> bool:
 	var patron := RegEx.new()
 	patron.compile(
 		"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
 	)
-
 	return patron.search(valor) != null
