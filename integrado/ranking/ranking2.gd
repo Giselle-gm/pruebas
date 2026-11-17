@@ -1,8 +1,9 @@
 extends Control
 
 const MENU_PATH := "res://menu.tscn"
-const MINIJUEGO := "result_level"
+var minijuego_actual := "take"
 
+@onready var titulo_label: Label = $LabelTitulo
 @onready var top1_label: RichTextLabel = $Top1_Label
 @onready var top2_label: RichTextLabel = $Top2_Label
 @onready var top3_label: RichTextLabel = $Top3_Label
@@ -14,6 +15,8 @@ const MINIJUEGO := "result_level"
 
 
 func _ready() -> void:
+	minijuego_actual = GameSession.minijuego_actual if not GameSession.minijuego_actual.is_empty() else "take"
+	titulo_label.text = "RANKING - " + minijuego_actual.to_upper()
 	boton_actualizar.pressed.connect(_on_actualizar_pressed)
 	boton_volver.pressed.connect(_on_volver_pressed)
 
@@ -24,7 +27,7 @@ func _ready() -> void:
 	ranking_label.text = ""
 	_limpiar_podio()
 
-	BackendManager.obtener_ranking(MINIJUEGO)
+	BackendManager.obtener_ranking(minijuego_actual)
 
 
 func _on_actualizar_pressed() -> void:
@@ -77,12 +80,13 @@ func _al_recibir_ranking(exito: bool, respuesta: Dictionary) -> void:
 		var puntaje := int(
 			jugador.get("puntaje_final", jugador.get("mejor_puntaje", 0))
 		)
+		var unidad := "ms" if minijuego_actual == "draw" else "puntos"
 
 		match posicion:
 			1:
-				texto1 = "[color=#fed403]%s[/color]\n[color=white]%d puntos[/color]" % [nombre, puntaje]
+				texto1 = "[color=#fed403]%s[/color]\n[color=white]%d %s[/color]" % [nombre, puntaje, unidad]
 			2:
-				texto2 = "[color=#385cd6]%s[/color]\n[color=white]%d puntos[/color]" % [nombre, puntaje]
+				texto2 = "[color=#385cd6]%s[/color]\n[color=white]%d %s[/color]" % [nombre, puntaje]
 			3:
 				texto3 = "[color=#ff8736]%s[/color]\n[color=white]%d puntos[/color]" % [nombre, puntaje]
 			_:

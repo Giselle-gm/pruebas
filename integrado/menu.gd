@@ -19,6 +19,7 @@ const FONT := preload("res://pixel-comic-sans-undertale-sans-font.ttf")
 const POSTERS := [
 	{
 		"title": ["TEST", "YOUR", "MIGHT"],
+		"game_key": "test_your_might",
 		"tag": "2 JUGADORES",
 		"scene": "res://test_your_might/tym.tscn",
 		"accent": Color("ff4d6d"),
@@ -27,6 +28,7 @@ const POSTERS := [
 	},
 	{
 		"title": ["DRAW"],
+		"game_key": "draw",
 		"tag": "2 JUGADORES",
 		"scene": "res://game1/draw_menu.tscn",
 		"accent": Color("ffd45e"),
@@ -35,6 +37,7 @@ const POSTERS := [
 	},
 	{
 		"title": ["TAKE"],
+		"game_key": "take",
 		"tag": "1 JUGADOR",
 		"scene": "res://game2/game_2.tscn",
 		"accent": Color("3ea6ff"),
@@ -81,6 +84,7 @@ const C_BLOB_2 := Color("5b9bd5")
 
 var index := 0
 var show_controls := false
+var screen_mode := "main"
 var _t := 0.0
 var _bob := 0.0
 
@@ -101,14 +105,17 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if show_controls:
-		if (event.is_action_pressed("ui_cancel")
-				or event.is_action_pressed("ui_accept")
-				or event.is_action_pressed("NewGame")):
+		if event.is_action_pressed("ui_cancel") or event.is_action_pressed("ui_accept") or event.is_action_pressed("NewGame"):
 			show_controls = false
 		return
 
 	if event.is_action_pressed("ui_cancel"):
-		get_tree().quit()
+		if screen_mode != "main":
+			screen_mode = "main"
+			index = 0
+			queue_redraw()
+		else:
+			get_tree().quit()
 		return
 
 	if event.is_action_pressed("ui_right") or event.is_action_pressed("ui_down"):
@@ -116,20 +123,59 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("ui_left") or event.is_action_pressed("ui_up"):
 		_select(wrapi(index - 1, 0, POSTERS.size()))
 	elif event.is_action_pressed("NewGame"):
-		show_controls = true
+		if screen_mode == "main":
+			show_controls = true
+		else:
+			_open_selected_library()
 	elif event.is_action_pressed("ui_accept"):
-		_activate()
+		if screen_mode == "main":
+			_activate()
+		else:
+			_open_selected_library()
+	elif event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_R and screen_mode == "main":
+			_open_library("ranking")
+		elif event.keycode == KEY_V and screen_mode == "main":
+			_open_library("rating")
 
 
 func _gui_input(event: InputEvent) -> void:
 	var click := event as InputEventMouseButton
 	if click == null or not click.pressed or click.button_index != MOUSE_BUTTON_LEFT:
 		return
+	if screen_mode == "main":
+		if Rect2(42, 154, 105, 17).has_point(click.position):
+			_open_library("ranking")
+			accept_event()
+			return
+		if Rect2(173, 154, 105, 17).has_point(click.position):
+			_open_library("rating")
+			accept_event()
+			return
 	var i := _poster_at(click.position)
 	if i >= 0:
 		index = i
-		_activate()
+		if screen_mode == "main":
+			_activate()
+		else:
+			_open_selected_library()
 		accept_event()
+
+
+func _open_library(mode: String) -> void:
+	screen_mode = mode
+	index = 0
+	show_controls = false
+	queue_redraw()
+
+
+func _open_selected_library() -> void:
+	var game_key := str(POSTERS[index]["game_key"])
+	GameSession.establecer_minijuego(game_key)
+	if screen_mode == "ranking":
+		get_tree().change_scene_to_file("res://ranking/ranking2.tscn")
+	else:
+		get_tree().change_scene_to_file("res://ranking/valoracion_resumen.tscn")
 
 
 func _select(i: int) -> void:
@@ -168,7 +214,10 @@ func _draw() -> void:
 	_board()
 	for i in POSTERS.size():
 		_poster(i)
-	_footer()
+	if screen_mode == "main":
+		_footer()
+	else:
+		_library_footer()
 
 
 func _title() -> void:
@@ -304,10 +353,24 @@ func _outline_rect(r: Rect2, color: Color) -> void:
 
 
 func _footer() -> void:
-	var hints := "FLECHAS O RATON: ELEGIR    ESPACIO: CONTROLES    ESC: SALIR"
-	_text(Vector2(size.x * 0.5, 160), "ENTER: JUGAR", 8, C_SEL, true)
-	_text(Vector2(size.x * 0.5, 172), hints,
-		_fit_size(hints, 8, size.x - 12), C_DIM, true)
+	_draw_menu_button(Rect2(42, 154, 105, 17), "R  RANKING", Color("725523"))
+	_draw_menu_button(Rect2(173, 154, 105, 17), "V  VALORACION", Color("28583d"))
+	_text(Vector2(size.x * 0.5, 177), "FLECHAS: ELEGIR   ENTER: JUGAR   ESPACIO: CONTROLES",
+		_fit_size("FLECHAS: ELEGIR   ENTER: JUGAR   ESPACIO: CONTROLES", 6, size.x - 8), C_DIM, true)
+
+
+func _library_footer() -> void:
+	var heading := "ELIGE UN JUEGO PARA VER SU " + ("RANKING" if screen_mode == "ranking" else "VALORACION")
+	_text(Vector2(size.x * 0.5, 160), heading, _fit_size(heading, 7, size.x - 12), C_SEL, true)
+	_text(Vector2(size.x * 0.5, 174), "FLECHAS: ELEGIR   ENTER: ABRIR   ESC: VOLVER",
+		_fit_size("FLECHAS: ELEGIR   ENTER: ABRIR   ESC: VOLVER", 7, size.x - 10), C_DIM, true)
+
+
+func _draw_menu_button(rect: Rect2, label: String, color: Color) -> void:
+	draw_rect(Rect2(rect.position + Vector2(1, 2), rect.size), Color(0, 0, 0, 0.4))
+	draw_rect(rect, color)
+	draw_rect(rect, C_PAPER, false, 1.0)
+	_text(rect.get_center(), label, 7, C_PAPER, true)
 
 
 func _controls() -> void:
