@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b7wq2n4yak1m3"
+path="res://.godot/imported/mysterious wind.wav-2f2a107424374077cb88f877956bcd3a.sample"
+
+[deps]
+
+source_file="res://Game1/mysterious wind.wav"
+dest_files=["res://.godot/imported/mysterious wind.wav-2f2a107424374077cb88f877956bcd3a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://ck66ntow28cpv"]
+
+[ext_resource type="Script" uid="uid://d1a5l8uc4fwvs" path="res://login/login.gd" id="1_by2ci"]
+[ext_resource type="Texture2D" uid="uid://xgw2chlajo44" path="res://bg 2.jpeg" id="2_5otam"]
+
+[node name="Control" type="Control" unique_id=26009781]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_by2ci")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1234414060]
+position = Vector2(159, 90)
+scale = Vector2(0.11363637, 0.115885414)
+texture = ExtResource("2_5otam")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2121605040]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 1.0
+offset_right = 255.0
+offset_bottom = 88.0
+alignment = 1
+
+[node name="LabelTitulo" type="Label" parent="VBoxContainer" unique_id=1081236017]
+layout_mode = 2
+text = "Iniciar Sesión"
+horizontal_alignment = 1
+
+[node name="LineEditUsuario" type="LineEdit" parent="VBoxContainer" unique_id=818068660]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+placeholder_text = "Nombre de usuario"
+clear_button_enabled = true
+
+[node name="LineEditPassword" type="LineEdit" parent="VBoxContainer" unique_id=1141049682]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+placeholder_text = "Contraseña"
+secret = true
+
+[node name="VBoxContainerButton" type="VBoxContainer" parent="." unique_id=838454872]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 92.0
+offset_right = 222.0
+offset_bottom = 179.0
+alignment = 1
+
+[node name="ButtonLogin" type="Button" parent="VBoxContainerButton" unique_id=146573525]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Iniciar Sesión"
+
+[node name="ButtonRegistro" type="Button" parent="VBoxContainerButton" unique_id=1175595430]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Crear cuenta"
+
+[node name="ButtonVolver" type="Button" parent="VBoxContainerButton" unique_id=837042588]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Volver"
+
+[node name="LabelMensaje" type="Label" parent="VBoxContainerButton" unique_id=889752502]
+layout_mode = 2
+theme_override_font_sizes/font_size = 6

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dhexx08445mo3"]
+
+[ext_resource type="Script" uid="uid://ba0exneur62dt" path="res://menu.gd" id="1_lti8b"]
+[ext_resource type="Texture2D" uid="uid://c113tjdx7pmdl" path="res://Imagen Grupo 2.png" id="2_ouk20"]
+[ext_resource type="FontFile" uid="uid://ykk8qopxxi0f" path="res://pixel-comic-sans-undertale-sans-font.ttf" id="3_mae5d"]
+
+[node name="GameSelector" type="Control" unique_id=739574823]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lti8b")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=986542349]
+z_index = -10
+position = Vector2(159.50002, 90)
+scale = Vector2(0.0638, 0.036)
+texture = ExtResource("2_ouk20")

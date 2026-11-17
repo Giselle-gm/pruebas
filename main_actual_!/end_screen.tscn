@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://end_screen.gd" id="1_es"]
+
+[node name="EndScreen" type="Control"]
+anchors_preset = 0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_es")

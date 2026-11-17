@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://dod0uen4vtby"]
+
+[ext_resource type="Script" uid="uid://b2c8x2lgb11d1" path="res://game1/game_1.gd" id="1_c701w"]
+[ext_resource type="Script" uid="uid://bpdg6v7eejisj" path="res://game1/stage.gd" id="1_ov8li"]
+[ext_resource type="Texture2D" uid="uid://cld4ru0wav0ki" path="res://game1/player1-v2.png" id="3_t3b1j"]
+[ext_resource type="AudioStream" uid="uid://dpdipkliavpj1" path="res://game1/jingle end.wav" id="4_b2f3f"]
+[ext_resource type="AudioStream" uid="uid://c0du4rpohqwg1" path="res://game1/gun.wav" id="4_c701w"]
+[ext_resource type="Texture2D" uid="uid://c3an04cfnldsj" path="res://game1/bg.png" id="4_fks45"]
+[ext_resource type="Texture2D" uid="uid://cfhsc4unsoq4n" path="res://game1/player2-v2.png" id="4_t3b1j"]
+[ext_resource type="AudioStream" uid="uid://blni2xdiuiphb" path="res://game1/jingle start.wav" id="5_bf58s"]
+[ext_resource type="FontFile" uid="uid://ykk8qopxxi0f" path="res://pixel-comic-sans-undertale-sans-font.ttf" id="5_t3b1j"]
+[ext_resource type="AudioStream" uid="uid://dk4tmw8fqnnog" path="res://game1/mysterious wind.wav" id="7_8fls2"]
+[ext_resource type="Texture2D" uid="uid://fikf7lfyu67q" path="res://game1/tumbleweed.png" id="10_bf58s"]
+
+[node name="Game1" type="Node2D" unique_id=1202138944]
+script = ExtResource("1_c701w")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=200284568]
+position = Vector2(160, 90)
+texture = ExtResource("4_fks45")
+
+[node name="Round1" type="Sprite2D" parent="." unique_id=1107032966]
+position = Vector2(135, 14)
+scale = Vector2(0.65625, 0.65625)
+
+[node name="Round2" type="Sprite2D" parent="." unique_id=1705279370]
+position = Vector2(156, 25)
+scale = Vector2(0.65625, 0.65625)
+
+[node name="Round3" type="Sprite2D" parent="." unique_id=654403890]
+position = Vector2(178, 15)
+scale = Vector2(0.65625, 0.65625)
+
+[node name="Stage" type="Node2D" parent="." unique_id=1493474199]
+script = ExtResource("1_ov8li")
+
+[node name="JingleEnd" type="AudioStreamPlayer" parent="Stage" unique_id=2112132916]
+stream = ExtResource("4_b2f3f")
+
+[node name="JingleStart" type="AudioStreamPlayer" parent="Stage" unique_id=999660748]
+stream = ExtResource("5_bf58s")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Stage" unique_id=932069690]
+stream = ExtResource("4_c701w")
+
+[node name="MysteriousWind" type="AudioStreamPlayer" parent="Stage" unique_id=309212914]
+stream = ExtResource("7_8fls2")
+
+[node name="Player1" type="Sprite2D" parent="Stage" unique_id=2068184519]
+position = Vector2(90, 105.8)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("3_t3b1j")
+
+[node name="Player2" type="Sprite2D" parent="Stage" unique_id=1618818925]
+position = Vector2(233, 105.8)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("4_t3b1j")
+
+[node name="WaitTimer" type="Timer" parent="Stage" unique_id=1556132906]
+one_shot = true
+
+[node name="MessageLabel" type="Label" parent="Stage" unique_id=1150296839]
+offset_left = 20.0
+offset_top = 45.0
+offset_right = 300.0
+offset_bottom = 85.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("5_t3b1j")
+theme_override_font_sizes/font_size = 12
+text = "Preparense!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Weed" type="Sprite2D" parent="." unique_id=1214259547]
+position = Vector2(83.00001, 133)
+scale = Vector2(0.71875, 0.71875)
+texture = ExtResource("10_bf58s")
+
+[connection signal="timeout" from="Stage/WaitTimer" to="Stage" method="_on_wait_timer_timeout"]

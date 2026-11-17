@@ -1,0 +1,8 @@
+#!/bin/sh
+'''exec' "/mnt/c/Users/Giselle/OneDrive - Universidad Técnica Federico Santa María/Documentos/USM/2026 - S2/mdcu/proyecto-dcu/backend/.venv/bin/python" "$0" "$@"
+' '''
+import sys
+from fastapi.cli import main
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(main())

@@ -1,0 +1,10 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://ca567atol0ic4"]
+
+[ext_resource type="Texture2D" uid="uid://cltisfvwoe7mf" path="res://assets/estrella_vacia.png" id="1_x1uyt"]
+
+[resource]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+texture = ExtResource("1_x1uyt")
