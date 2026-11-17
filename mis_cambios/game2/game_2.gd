@@ -48,6 +48,7 @@ var screen_width: float = 0.0
 var car_width: float = 100.0
 
 func _ready() -> void:
+	GameSession.iniciar_partida("take")
 	randomize()
 	
 	var viewport_rect: Rect2 = get_viewport_rect()
