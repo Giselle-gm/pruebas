@@ -35,7 +35,7 @@ func _on_actualizar_pressed() -> void:
 	ranking_label.text = ""
 	_limpiar_podio()
 
-	BackendManager.obtener_ranking(MINIJUEGO)
+	BackendManager.obtener_ranking(minijuego_actual)
 
 
 func _al_recibir_ranking(exito: bool, respuesta: Dictionary) -> void:
@@ -86,12 +86,12 @@ func _al_recibir_ranking(exito: bool, respuesta: Dictionary) -> void:
 			1:
 				texto1 = "[color=#fed403]%s[/color]\n[color=white]%d %s[/color]" % [nombre, puntaje, unidad]
 			2:
-				texto2 = "[color=#385cd6]%s[/color]\n[color=white]%d %s[/color]" % [nombre, puntaje]
+				texto2 = "[color=#385cd6]%s[/color]\n[color=white]%d %s[/color]" % [nombre, puntaje, unidad]
 			3:
-				texto3 = "[color=#ff8736]%s[/color]\n[color=white]%d puntos[/color]" % [nombre, puntaje]
+				texto3 = "[color=#ff8736]%s[/color]\n[color=white]%d %s[/color]" % [nombre, puntaje, unidad]
 			_:
-				texto += "[color=#6abe30]%d. %s — [/color][color=white]%d puntos[/color]\n" % [
-					posicion, nombre, puntaje
+				texto += "[color=#6abe30]%d. %s — [/color][color=white]%d %s[/color]\n" % [
+					posicion, nombre, puntaje, unidad
 				]
 
 	top1_label.text = texto1
